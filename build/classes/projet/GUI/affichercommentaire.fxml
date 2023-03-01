@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="657.0" prefWidth="1096.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projet.GUI.AffichercommentaireController">
+   <children>
+       
+      <TableView fx:id="Comment" layoutX="14.0" layoutY="30.0" prefHeight="419.0" prefWidth="791.0">
+        <columns>
+          <TableColumn fx:id="contenu" prefWidth="365.0" text="Contenu" />
+          <TableColumn fx:id="Date" prefWidth="425.0" text="Date" />
+        </columns>
+      </TableView>
+      <Button layoutX="889.0" layoutY="402.0" mnemonicParsing="false" onAction="#add" prefHeight="30.0" prefWidth="83.0" stylesheets="@back.css" text="Ajouter" />
+      <TextArea fx:id="description" layoutX="831.0" layoutY="140.0" prefHeight="200.0" prefWidth="200.0" styleClass="table-view" stylesheets="@back.css" />
+      
+      <Button layoutX="890.0" layoutY="569.0" mnemonicParsing="false" onAction="#delete" style="-fx-background-color: #8c87ed;" stylesheets="@back.css" text="Supprimer" />
+      <Button fx:id="modifier" layoutX="890.0" layoutY="486.0" mnemonicParsing="false" onAction="#modifier" prefHeight="30.0" prefWidth="83.0" style="-fx-background-color: #8c87ed;" stylesheets="@back.css" text="modifier" />
+   </children>
+</AnchorPane>

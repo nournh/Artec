@@ -1,0 +1,64 @@
+
+
+.card-view {
+    -fx-background-color: linear-gradient(to bottom right, #cced55, #e7edce);
+    -fx-padding: 20px;
+}
+
+.card {
+    -fx-background-color: #8c87ed;
+    -fx-border-color: rgba(0, 0, 0, 0.1);
+    -fx-border-width: 1px;
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 1);
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 6px;
+}
+
+.card-title {
+    -fx-font-size: 60px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #444;
+    text-align: center;
+}
+
+.card-description {
+    -fx-font-size: 18px;
+    -fx-text-fill: #777;
+}
+
+.card-comment {
+    -fx-font-size: 16px;
+    -fx-font-style: italic;
+    -fx-text-fill: #999;
+}
+
+.add-comment-button {
+    -fx-background-color: #1abc9c;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 20px;
+    -fx-border-radius: 30px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 1);
+    -fx-cursor: hand;
+    -fx-transition: background-color 0.3s ease-in-out;
+    -fx-background-radius: 50px;
+    -fx-background-insets: 0;
+    -fx-border-color: transparent;
+}
+
+.add-comment-button:hover {
+    -fx-background-color: #16a085;
+}
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 25 févr. 2023, 20:01:42
+    Author     : Lenovo
+*/
+
