@@ -30,6 +30,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SortEvent;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -58,8 +59,7 @@ public class AfficherArticleController implements Initializable {
  // private ObservableList<Article> allArticles;
 @FXML
 private TextField searchField;
-@FXML
-private Button searchButton;
+
     ServiceArticle art = new ServiceArticle();
     @FXML
     private TableView<Article> articlesTable;
@@ -81,6 +81,12 @@ private Button searchButton;
     private Button modifier;
    
 private ObservableList<Article> suggestions = FXCollections.observableArrayList();
+    @FXML
+    private TableView<Commentaire> commentsTable;
+    @FXML
+    private TableColumn<Commentaire, String> contenu;
+    @FXML
+    private TableColumn<Article, Void> commentsColumn;
 
 
     @Override
@@ -90,14 +96,47 @@ private ObservableList<Article> suggestions = FXCollections.observableArrayList(
         //articlesTable.setItems(allArticles);
         ServiceArticle service=new ServiceArticle();
           ObservableList<Article> list = service.getall();
+        
+        // List<Commentaire> comments = getCommentsForArticle(list.getId());
           System.out.print(list);
            categoryColumn.setCellValueFactory(new PropertyValueFactory<>("categorie"));
 titleColumn.setCellValueFactory(new PropertyValueFactory<>("Titre"));
 descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
+ commentsColumn.setCellFactory(param -> new TableCell<Article, Void>() {
+        private final Button commentsButton = new Button("Comments");
+
+        {
+            commentsButton.setOnAction(event -> {
+                Article article = getTableView().getItems().get(getIndex());
+                ServiceCommentaire serviceCommentaire = new ServiceCommentaire();
+                System.out.println("Selected article ID: " + article.getId());
+
+
+                ObservableList<Commentaire> comments = serviceCommentaire.getCommentsForArticle(article.getId());
+                System.out.println("Comments for article " + article.getId() + ": " + comments);
+
+                contenu.setCellValueFactory(new PropertyValueFactory<>("Contenu"));
+commentsTable.setItems(comments);
+              //  commentsTable.setItems(comments);
+            });
+        }
+
+        @Override
+        public void updateItem(Void item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setGraphic(null);
+            } else {
+                setGraphic(commentsButton);
+            }
+        }
+    });
+
+//commentaire.setCellValueFactory(new PropertyValueFactory<>("commentaires"));
           articlesTable.setItems(list);
  categorie.getItems().addAll("Art", "peinture");
  categorie.setOnAction(this::filterByCategory);
-searchButton.setOnAction(this::search);
+searchField.setOnAction(this::search);
 
    
 
@@ -138,36 +177,37 @@ searchButton.setOnAction(this::search);
     
    // @FXML
  public void deleteB() {
-    //    ServiceArticle SA = new ServiceArticle();
-       // Article selectedArticle = articlesTable.getSelectionModel().getSelectedItem();
-    ////     SA.delete(selectedArticle.getId());
-        //SA.delete(articlesTable.getSelectionModel().getSelectedItem().getId());
-      //  System.out.println(articlesTable.getSelectionModel().getSelectedItem().getId());
-    }
+      ServiceArticle SA = new ServiceArticle();
+       Article selectedArticle = articlesTable.getSelectionModel().getSelectedItem();
+       SA.delete(selectedArticle.getId());
+        SA.delete(articlesTable.getSelectionModel().getSelectedItem().getId());
+       System.out.println(articlesTable.getSelectionModel().getSelectedItem().getId());
+     
+ }
+ public void deleteC() {
+     ServiceCommentaire  SC = new ServiceCommentaire();
+       Commentaire selectedCommentaire = commentsTable.getSelectionModel().getSelectedItem(); 
+       SC.delete(selectedCommentaire.getIdC());
+       SC.delete(commentsTable.getSelectionModel().getSelectedItem().getIdC()); }
   @FXML
     private void delete(ActionEvent event) {
-       
+          deleteB();
+        articlesTable.getItems().removeAll(articlesTable.getSelectionModel().getSelectedItem());
+        System.out.println(articlesTable);
+        articlesTable.refresh();
+         Article selectedArticle = articlesTable.getSelectionModel().getSelectedItem();
+   
+        deleteC();
+  commentsTable.getItems().removeAll(commentsTable.getSelectionModel().getSelectedItem());
+  commentsTable.refresh();
+   Commentaire selectedCommentaire = commentsTable.getSelectionModel().getSelectedItem();
     // Get the selected Article object
-    Article selectedArticle = articlesTable.getSelectionModel().getSelectedItem();
-    if (selectedArticle == null) {
-        // No article selected, display an error message
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText("Please select an article to delete.");
-        alert.showAndWait();
-        return;
-    }
+   
+   
     
+   
     // Delete the selected article from the database
-    ServiceArticle articleService = new ServiceArticle();
-    articleService.delete(selectedArticle.getId());
-    
-    // Remove the selected article from the TableView
-   // articlesTable.getItems().remove(selectedArticle);
-    articlesTable.getItems().removeAll(articlesTable.getSelectionModel().getSelectedItem());
-    // Refresh the TableView to reflect the changes
-    articlesTable.refresh();
+   
 }
 
         /*delete();
@@ -194,7 +234,7 @@ searchButton.setOnAction(this::search);
     
     // Open a new dialog window or form to allow the user to edit the selected article.
     // You can use a TextInputDialog or a custom dialog.
-    TextInputDialog dialog = new TextInputDialog(selectedArticle.getCategorie());
+   /* TextInputDialog dialog = new TextInputDialog(selectedArticle.getCategorie());
     dialog.setTitle("Edit Article");
     dialog.setHeaderText(null);
     dialog.setContentText("Please enter the new category:");
@@ -202,7 +242,7 @@ searchButton.setOnAction(this::search);
     
     if (result.isPresent()) {
         // Update the Article object with the new category value.
-        selectedArticle.setCategorie(result.get());
+        selectedArticle.setCategorie(result.get());*/
         
         // Open another dialog to edit the title.
         TextInputDialog titleDialog = new TextInputDialog(selectedArticle.getTitre());
@@ -234,7 +274,7 @@ searchButton.setOnAction(this::search);
                 articlesTable.refresh();
             }
         }
-    }
+    
 }
 
          
@@ -248,21 +288,17 @@ private void search(ActionEvent event) {
     // Filter the articles based on the search text
     ObservableList<Article> filteredList = allArticles.filtered(article -> {
         return article.getTitre().toLowerCase().contains(searchText.toLowerCase()) ||
-                article.getDescription().toLowerCase().contains(searchText.toLowerCase()) ||
+               // article.getDescription().toLowerCase().contains(searchText.toLowerCase()) ||
                 article.getCategorie().toLowerCase().contains(searchText.toLowerCase());
     });
 
     // Show the filtered articles in the table
     articlesTable.setItems(filteredList);
 
-    // Show the filtered articles as suggestions in the ComboBox
-    suggestions.clear();
-    ObservableList<String> suggestions = FXCollections.observableArrayList();
-    for (Article article : filteredList) {
-        suggestions.add(article.getTitre());
+   
     }
     
-}
+
 private void filterByCategory(ActionEvent event) {
     // Get the selected category from the ComboBox
     String selectedCategory = categorie.getValue();

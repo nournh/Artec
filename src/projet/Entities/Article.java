@@ -5,6 +5,7 @@
  */
 package projet.Entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,6 +25,7 @@ import projet.Services.ServiceArticle;
         private String Titre;
    private  int  likes,dislikes;
         private List<Commentaire> commentaires;;
+        
 
     public int getId() {
         return id;
@@ -65,6 +67,12 @@ import projet.Services.ServiceArticle;
         this.Titre = Titre;
         this.commentaires = commentaires;
     }
+public Article(String title, String description, String category) {
+    this.Titre = title;
+    this.Description = description;
+    this.Categorie = category;
+    this.commentaires = new ArrayList<>();
+}
 
   
 public static String pathfile; 
@@ -72,16 +80,7 @@ public static String pathfile;
    
    
 
-    public Article(String Categorie,String Titre,String Description) {
-      
-    this.Categorie = Categorie;
-        this.Description = Description;
-        this.Titre = Titre;
-        
-        this.commentaires =commentaires;
-    
-        
-    }
+   
      public List<Commentaire> getCommentaires() {
         return commentaires;
     }

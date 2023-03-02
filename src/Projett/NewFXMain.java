@@ -29,7 +29,7 @@ public class NewFXMain extends Application {
         
         try {
             FXMLLoader loader = new FXMLLoader();
-            Parent root=FXMLLoader.load(getClass().getResource("../projet/GUI/article.fxml"));
+            Parent root=FXMLLoader.load(getClass().getResource("../projet/GUI/Article.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setTitle("ARTEC");
             primaryStage.setScene(scene);

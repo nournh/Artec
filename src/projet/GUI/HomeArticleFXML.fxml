@@ -12,7 +12,7 @@
 <?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projet.GUI.HomeArticleFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projet.GUI.HomeArticleFXMLController">
    <children>
       <Button layoutX="252.0" layoutY="329.0" mnemonicParsing="false" onAction="#addArticle" text="Ajouter">
          <effect>
@@ -28,6 +28,7 @@
       <TextArea fx:id="description" layoutX="176.0" layoutY="173.0" prefHeight="118.0" prefWidth="222.0" />
       <TextField fx:id="titre" layoutX="167.0" layoutY="110.0" prefHeight="31.0" prefWidth="222.0" />
       <ChoiceBox fx:id="categorie" layoutX="167.0" layoutY="53.0" prefHeight="31.0" prefWidth="222.0" />
+      <Button fx:id="beck" layoutX="36.0" layoutY="345.0" mnemonicParsing="false" onAction="#back" prefHeight="31.0" prefWidth="93.0" stylesheets="@style.css" text="back" />
    </children>
    <effect>
       <InnerShadow choke="1.0" color="#d9d31c">

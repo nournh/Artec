@@ -264,6 +264,33 @@ return false;
 
  
 
-    }}
+    }
+public ObservableList<Commentaire> getCommentsForArticle(int articleId) {
+    ObservableList<Commentaire> comments = FXCollections.observableArrayList();
+    try {
+        String req = "select * from commentaire where id_art = ? and archive = 0";
+        PreparedStatement pst = cnx.prepareStatement(req);
+        pst.setInt(1, articleId);
+        ResultSet rs = pst.executeQuery();
+
+        while (rs.next()) {
+            Commentaire c = new Commentaire();
+            c.setContenu(rs.getString("Contenu"));
+            Timestamp timestamp = rs.getTimestamp("date_c"); 
+            if (timestamp != null) {
+                LocalDateTime localDateTime = timestamp.toLocalDateTime();
+                c.setDate_c(localDateTime);
+            }
+            comments.add(c);
+            System.out.println("Added comment: " + c.getContenu());
+
+        }
+
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+    }
+    return comments;
+}
+}
 
 

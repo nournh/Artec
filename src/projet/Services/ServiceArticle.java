@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import projet.Entities.Article;
+import projet.Entities.Commentaire;
 
 import projet.utils.MyDB;
 
@@ -104,6 +107,7 @@ stm = cnx.createStatement();
 
             while (rs.next()) {
                 Article p = new Article();
+                 p.setId(rs.getInt("Id"));
                 p.setDescription(rs.getString("Description"));
             p.setTitre(rs.getString("Titre"));
             p.setCategorie(rs.getString("catégorie"));
@@ -174,8 +178,33 @@ public List<Article> getArticlesByCategory(String category) {
 
 
  
+public ObservableList<Commentaire> getCommentsForArticle(int articleId) {
+    ObservableList<Commentaire> comments = FXCollections.observableArrayList();
+    try {
+        String req = "select * from commentaire where id_art = ? and archive = 0";
+        PreparedStatement pst = cnx.prepareStatement(req);
+        pst.setInt(1, articleId);
+        ResultSet rs = pst.executeQuery();
+
+        while (rs.next()) {
+            Commentaire c = new Commentaire();
+            c.setContenu(rs.getString("Contenu"));
+            Timestamp timestamp = rs.getTimestamp("date_c"); 
+            if (timestamp != null) {
+                LocalDateTime localDateTime = timestamp.toLocalDateTime();
+                c.setDate_c(localDateTime);
+            }
+            comments.add(c);
+        }
+
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+    }
+    return comments;
+}
+}
 
 
-   }
+   
 
   

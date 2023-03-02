@@ -41,7 +41,7 @@ public class InterfaceController implements Initializable {
     }    
 
     @FXML
-    private void ajouter(ActionEvent event) {
+    private  void ajouter(ActionEvent event) {
         
          try {
 /*

@@ -17,11 +17,14 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList; 
 import java.util.List;
+import static java.util.Locale.filter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -33,6 +36,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -44,6 +48,8 @@ import javax.smartcardio.Card;
 import static jdk.nashorn.internal.objects.NativeFunction.function;
 import projet.Entities.Article;
 import projet.Entities.Commentaire;
+import projet.Services.BadWordFilter;
+import projet.Services.ServiceArticle;
 
 
 /**
@@ -57,6 +63,10 @@ public class ArticleController implements Initializable {
     private GridPane CrdView;
 private List<Article> articles;
 private List<Commentaire> comments;
+    @FXML
+    private TextField searchField;
+    @FXML
+    private Button ajouter;
     /**
      * Initializes the controller class.
      * @param url
@@ -178,8 +188,10 @@ private void showArticleDetails(Article article) throws SQLException {
         Label descriptionLabel = (Label) loader.getNamespace().get("descriptionLabel");
         Label likesLabel = (Label) loader.getNamespace().get("likesLabel"); // Add a Label for the number of likes
         ScrollPane commentsScrollPane = (ScrollPane) loader.getNamespace().get("commentsScrollPane");
-         Button addCommentButton = (Button) loader.getNamespace().get("addCommentButton"); // Récupérer le bouton "Ajouter un commentaire"
+         Button addCommentButton = (Button) loader.getNamespace().get("addCommentButton");
+         // Récupérer le bouton "Ajouter un commentaire"
         Button likeButton = (Button) loader.getNamespace().get("likeButton");
+        Button back =(Button) loader.getNamespace().get("back");
 likeButton.setOnAction(event -> {
     try {
           
@@ -211,6 +223,20 @@ likeButton.setOnAction(event -> {
         Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
     }
 });
+               
+        back.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("Article.fxml"));
+                    Parent root = loader.load();
+                    ArticleController pc = loader.getController();
+                    back.getScene().setRoot(root);
+                }catch (IOException ex) {
+                    System.err.println(ex.getMessage());
+                }
+            }
+        });
            refreshComments(commentsScrollPane, article.getId());
 
         // Créer une nouvelle fenêtre pour afficher les détails de l'article
@@ -221,7 +247,14 @@ likeButton.setOnAction(event -> {
     } catch (IOException e) {
         e.printStackTrace();
     }
+   
+    
+    
+    
+    
 }
+
+
 
 private List<Commentaire> getCommentsForArticle(int articleId) throws SQLException {
     List<Commentaire> comments = new ArrayList<>();
@@ -273,8 +306,24 @@ private void showAddCommentDialog(Article article, ScrollPane commentsScrollPane
     Optional<String> result = dialog.showAndWait();
     if (result.isPresent()) {
         String contenu = result.get();
+        BadWordFilter filter = new BadWordFilter();
+//String inputText = "This is a test sentence that contains a bad word: shit";
+if (filter.containsBadWord(contenu)) {
+    // Display an error message or take other actions as needed
+     Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+       
+        alert.setContentText("The input text contains a bad word.");
+        alert.showAndWait();
+    System.out.println("The input text contains a bad word.");
+} else {
+    // Proceed with normal processing
+    System.out.println("The input text is clean.");
         ajouterCommentaire(article.getId(), contenu,commentsScrollPane);
+        
     }
+ 
+}
 }
 
 private void ajouterCommentaire(int articleId, String contenu, ScrollPane commentsScrollPane) throws SQLException {
@@ -319,7 +368,53 @@ private void refreshComments(ScrollPane commentsScrollPane, int articleId) throw
     public void setArticle(Article article) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @FXML
+    private void search(ActionEvent event) {
+          ServiceArticle serviceArticle = new ServiceArticle();
+    String searchText = searchField.getText();
+    ObservableList<Article> allArticles = serviceArticle.getall();
+
+    // Filter the articles based on the search text
+    ObservableList<Article> filteredList = allArticles.filtered(article -> {
+        return article.getTitre().toLowerCase().contains(searchText.toLowerCase()) ||
+                //article.getDescription().toLowerCase().contains(searchText.toLowerCase()) ||
+                article.getCategorie().toLowerCase().contains(searchText.toLowerCase());
+    });
+
+    // Show the filtered articles in the table
+   CrdView.getChildren().clear();
+
+    // Add the filtered articles as new cards to the card view
+    filteredList.forEach(article -> {
+        VBox card = createCard(article);
+        CrdView.getChildren().add(card);
+    });
+    }
+
+    @FXML
+    private void ajouter(ActionEvent event) {
+      
+        try {
+/*
+         Parent root = FXMLLoader.load(getClass().getResource("/Gui/Voyage.fxml"));
+              Scene scene = new Scene(root);
+              Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+              stage.setScene(scene);
+              stage.show();*/
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("HomeArticleFXML.fxml"));
+            Parent root = loader.load();
+            HomeArticleFXMLController pc = loader.getController();
+            
+            ajouter.getScene().setRoot(root);
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
 }
+
+   
+    
        
 
 
