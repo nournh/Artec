@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pieya.GUI.CoupantFXMLcontroler">
+  <children>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Label fx:id="gest" layoutX="167.0" layoutY="14.0" prefHeight="38.0" prefWidth="307.0" text="Gestion Des Coupons" textFill="#406bb1">
+               <font>
+                  <Font name="System Bold Italic" size="29.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tableide" layoutX="12.0" layoutY="156.0" prefHeight="215.0" prefWidth="617.0">
+              <columns>
+                <TableColumn fx:id="codeide" prefWidth="181.0" text="Code Coupon" />
+                <TableColumn fx:id="valeuride" prefWidth="175.0" text="Valeur" />
+                  <TableColumn fx:id="supprimeride" prefWidth="123.0" text="Action" />
+                  <TableColumn fx:id="modifieride" prefWidth="143.0" text="Action" />
+                  <TableColumn fx:id="codeid" prefWidth="181.0" text="Id_Coupant" />
+              </columns>
+            </TableView>
+            <Button fx:id="addd" layoutX="404.0" layoutY="94.0" mnemonicParsing="false" onAction="#ajouter" prefHeight="27.0" prefWidth="66.0" text="Ajouter " textFill="#406bb1" />
+            <TextField fx:id="codetxt" layoutX="52.0" layoutY="95.0" promptText="Code" />
+            <TextField fx:id="valeurtxt" layoutX="231.0" layoutY="95.0" promptText="Valeur" />
+            <Button fx:id="act" layoutX="481.0" layoutY="94.0" mnemonicParsing="false" onAction="#afficher" prefHeight="27.0" prefWidth="66.0" text="actualiser" textFill="#406bb1" />
+            <Button fx:id="retide" layoutX="560.0" layoutY="95.0" mnemonicParsing="false" onAction="#retour3" prefHeight="27.0" prefWidth="66.0" text="Retour" textFill="#406bb1" />
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>

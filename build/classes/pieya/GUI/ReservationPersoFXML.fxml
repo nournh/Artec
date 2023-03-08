@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pieya.GUI.ReservationPersoFXMLcontroler">
+  <children>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Label fx:id="mes" layoutX="198.0" layoutY="2.0" prefHeight="40.0" prefWidth="266.0" text="Mes Reservations:" textFill="#406bb1">
+               <font>
+                  <Font name="System Bold Italic" size="28.0" />
+               </font></Label>
+            <ScrollPane fx:id="mescontainerr" layoutX="14.0" layoutY="107.0" prefHeight="279.0" prefWidth="605.0">
+               <content>
+                  <GridPane fx:id="gridide">
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+            <Label fx:id="labbbb" layoutX="40.0" layoutY="55.0" prefHeight="33.0" prefWidth="177.0" text="Etat du reservation:" textFill="#406bb1">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Label>
+            <ChoiceBox fx:id="chide" layoutX="217.0" layoutY="59.0" prefWidth="150.0" />
+            <Button fx:id="filteride" layoutX="382.0" layoutY="59.0" mnemonicParsing="false" onAction="#Filter" prefHeight="25.0" prefWidth="146.0" text="Filtrer" textFill="#406bb1" />
+            <Button fx:id="refresheya" layoutX="563.0" layoutY="9.0" mnemonicParsing="false" onAction="#Refresh" text="Refresh" textFill="#406bb1" />
+            <Button fx:id="retouride" layoutX="561.0" layoutY="43.0" mnemonicParsing="false" onAction="#retour1" prefHeight="25.0" prefWidth="56.0" text="Retour" textFill="#406bb1" />
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>

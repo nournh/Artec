@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="400.0" prefWidth="477.0" style="-fx-border-color: #e0dfed;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pieya.GUI.ReservationdetailsFXMLController">
+  <children>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="376.0" prefWidth="446.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Label layoutX="251.0" layoutY="41.0" prefHeight="25.0" prefWidth="94.0" text="Description :" textFill="#406bb1">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="descripty" layoutX="251.0" layoutY="68.0" prefHeight="75.0" prefWidth="194.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Label>
+            <Button fx:id="resid" layoutX="187.0" layoutY="336.0" mnemonicParsing="false" onAction="#ajouterreservation" prefHeight="35.0" prefWidth="102.0" style="-fx-background-color: #406bb1;" text="Réserver" />
+            <Label layoutX="251.0" layoutY="149.0" prefHeight="25.0" prefWidth="102.0" text="Categorie" textFill="#406bb1">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="categoriey" layoutX="251.0" layoutY="174.0" prefHeight="35.0" prefWidth="159.0">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+            <Label layoutX="251.0" layoutY="215.0" prefHeight="25.0" prefWidth="211.0" text="Nom Galerie" textFill="#406bb1">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="nomgaly" layoutX="251.0" layoutY="240.0" prefHeight="44.0" prefWidth="211.0">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+            <ImageView fx:id="imgeed" fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Image/imgy.jpg" />
+               </image>
+            </ImageView>
+            <Label fx:id="eventide" layoutX="68.0" layoutY="262.0" prefHeight="35.0" prefWidth="126.0" visible="false" />
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>
