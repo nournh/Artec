@@ -1,0 +1,37 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2 mars 2023, 10:58:32
+    Author     : Asus
+*/
+
+primary-background {
+    -fx-background-color:#17949d
+        
+        
+        
+}
+.root {
+  -fx-background-image: url("file:///C:/Users/Asus/Pictures/AnyDesk/opArt.png");
+   -fx-background-size: cover;
+    -fx-background-position: center;
+}
+.secondary-background {
+    -fx-background-color:#cced55
+}
+.card{
+    
+    -fx-background-radius :10;
+  
+}
+.card {
+    background-color: white;
+    border-radius: 10px;
+   
+    padding: 20px;
+    margin: 20px;
+}
+

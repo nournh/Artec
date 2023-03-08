@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" stylesheets="@../../artC.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi1.GUI.artConController">
+  <children>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+         <children>
+            <ImageView fx:id="artc2" fitHeight="129.0" fitWidth="164.0" layoutX="138.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Image/artc2.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="artc3" fitHeight="150.0" fitWidth="141.0" layoutX="298.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Image/artc.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="artc4" fitHeight="141.0" fitWidth="156.0" layoutX="436.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Image/artc5.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="artc1" fitHeight="120.0" fitWidth="118.0" layoutX="7.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Image/artc3.jpg" />
+               </image>
+            </ImageView>
+            <Button fx:id="comid" layoutX="506.0" layoutY="345.0" mnemonicParsing="false" onAction="#Commenter" prefHeight="25.0" prefWidth="105.0" style="-fx-background-color: #4e7249;" text="Commenter" textFill="#6f0606" />
+            <Label layoutX="138.0" layoutY="178.0" prefHeight="17.0" prefWidth="413.0" text="Galerie Art Contemporain " textFill="#4e7249">
+               <font>
+                  <Font name="Book Antiqua" size="34.0" />
+               </font>
+            </Label>
+            <Button fx:id="ahayat" layoutX="33.0" layoutY="345.0" mnemonicParsing="false" onAction="#Back" prefHeight="25.0" prefWidth="105.0" style="-fx-background-color: #4e7249;" text="Back" textFill="#6f0606" />
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>
