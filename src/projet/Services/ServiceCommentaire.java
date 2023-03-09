@@ -55,7 +55,7 @@ public  class ServiceCommentaire implements ArticleInterface<Commentaire>{
     }*/
 
          try {
-            String qry = "INSERT INTO commentaire (contenu, date_c, id_art) VALUES (?, NOW(), ?)";
+            String qry = "INSERT INTO feedback (contenu, date_c, id_art) VALUES (?, NOW(), ?)";
             PreparedStatement pstmt = cnx.prepareStatement(qry);
         pstmt.setString(1, commentaire.getContenu());
         pstmt.setInt(2, commentaire.getId_art());
@@ -88,7 +88,7 @@ public  class ServiceCommentaire implements ArticleInterface<Commentaire>{
         Connection conn = MyDB.getInstance().getCnx();
 
         // Create the SQL statement to update the comment
-        String sql = "UPDATE commentaire SET contenu=?, date_c=IFNULL(?, NOW()), id_art=? WHERE Id=?";
+        String sql = "UPDATE feedback SET contenu=?, date_c=IFNULL(?, NOW()), id_art=? WHERE Id=?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         // Set the values of the parameters in the statement
@@ -141,7 +141,7 @@ public  class ServiceCommentaire implements ArticleInterface<Commentaire>{
      public void delete(int id) {
          try {
      
-       String req = "UPDATE commentaire SET Archive = 1 WHERE id = " + id;
+       String req = "UPDATE feedback SET Archive = 1 WHERE id = " + id;
         stm = cnx.createStatement();
             System.out.println("Deleted Successfully !");
             stm.executeUpdate(req);
@@ -163,7 +163,7 @@ public  class ServiceCommentaire implements ArticleInterface<Commentaire>{
       public ObservableList<Commentaire> getall() {
         ObservableList<Commentaire> posts = FXCollections.observableArrayList();
         try {
-            String req = "select * from commentaire  WHERE archive = 0";
+            String req = "select * from feedback  WHERE archive = 0";
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
 
@@ -247,7 +247,7 @@ posts.add(c);
     public Boolean supprimer(Commentaire i) {
       try {
      
-       String req = "UPDATE 'commentaire' SET 'Archive' = 1 WHERE 'id' = '" + i.getIdC() + "'";
+       String req = "UPDATE 'feedback' SET 'Archive' = 1 WHERE 'id' = '" + i.getIdC() + "'";
         stm = cnx.createStatement();
       
             System.out.println("Deleted Successfully !");
@@ -268,7 +268,7 @@ return false;
 public ObservableList<Commentaire> getCommentsForArticle(int articleId) {
     ObservableList<Commentaire> comments = FXCollections.observableArrayList();
     try {
-        String req = "select * from commentaire where id_art = ? and archive = 0";
+        String req = "select * from feedback where id_art = ? and archive = 0";
         PreparedStatement pst = cnx.prepareStatement(req);
         pst.setInt(1, articleId);
         ResultSet rs = pst.executeQuery();

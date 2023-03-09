@@ -5,92 +5,20 @@
         
 }
 .root {
-  -fx-background-image: url("file:///C:/Users/Lenovo/Downloads/back.jpg");
+  -fx-background-image: url("file:///C:/Users/Lenovo/Downloads/back.png");
    -fx-background-size: cover;
     -fx-background-position: center;
 }
 .secondary-background {
     -fx-background-color:#cced55
 }
-.card{
-    
-    -fx-background-radius :10;
-  
-}
-.card {
-    background-color: white;
-    border-radius: 10px;
-   
-    padding: 20px;
-    margin: 20px;
-}
 
-.card-title {
-    font-size: 24px;
+.card-title-custom {
     font-weight: bold;
-    margin-bottom: 10px;
+    font-size: 25px;
+    color: blue;
 }
-
-.card-description {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-.card-comment {
-    font-size: 14px;
-    margin-bottom: 5px;
-}
-
-.card-comment-icon {
-    font-size: 14px;
-    color: blueviolet;
-    margin-right: 5px;
-}
-
-.card-comment-input {
-    margin-top: 10px;
-}
-
-.card-comment-button {
-    margin-top: 18px;
-       color: blueviolet;
-}
-.article-card {
-    background-color: #ffffff;
-    border: 1px ;
-    border-color: blue;
-    border-radius: 4px;
-    box-shadow: 0px 0px 4px;
-    
-    padding: 8px;
-    margin: 8px;
-    width: 250px;
-}
-.article {
-  display: inline-block;
-  margin: 10px;
-  vertical-align: top;
- 
-}
-
-/* Afficher 3 articles par ligne */
-@media screen and (max-width: 992px) {
-  .article {
-    width: calc(50% - 20px);
-  }
-}
-@media screen and (max-width: 576px) {
-  .article {
-    width: 100%;
-  }
-}
-.grid-container {
-  display: grid;
- 
-}
-
-.grid-item {
-  border: 1px ;
-  border-bottom-color: black;
-  padding: 20px;
+.card-title {
+    font-size: 50px;
+    font-weight: bold;
 }

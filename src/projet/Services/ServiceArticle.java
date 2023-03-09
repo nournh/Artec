@@ -7,7 +7,12 @@
 package projet.Services;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,11 +52,17 @@ if (article.getTitre().length() > 100) {
         throw new IllegalArgumentException("Le titre de l'article ne doit pas dépasser 100 caractères !");
     }
 
+
          try {
-            String qry = "INSERT INTO article(Id,catégorie , Description, Titre) VALUES (null,  '" + article.getCategorie() + "', '" + article.getDescription() +"', '" + article.getTitre() + "')";
-            stm = cnx.createStatement();
-            System.out.println("Added Successfully !");
-            stm.executeUpdate(qry);
+            String qry = "INSERT INTO article (Id, catégorie, Description, Titre, image,likes, id_user) VALUES (null, ?, ?, ?, ?, ?, ?,?)";
+            PreparedStatement pstmt = cnx.prepareStatement(qry);
+           pstmt.setString(1, article.getCategorie());
+pstmt.setString(2, article.getDescription());
+pstmt.setString(3, article.getTitre());
+pstmt.setBytes(4, article.getImage());
+pstmt.setInt(5, article.getLikes());
+pstmt.setInt(6, article.getUserId());
+pstmt.executeUpdate();
         } catch (SQLException ex) {
 
             System.out.println(ex.getMessage());
@@ -79,7 +90,7 @@ stm = cnx.createStatement();
      public void delete(int id) {
          try {
      
-       String req = "UPDATE article SET Archive = 1 WHERE id = " + id;
+       String req = "UPDATE article SET Archive = 1 WHERE Id = " + id;
         stm = cnx.createStatement();
             System.out.println("Deleted Successfully !");
             stm.executeUpdate(req);
@@ -202,9 +213,28 @@ public ObservableList<Commentaire> getCommentsForArticle(int articleId) {
     }
     return comments;
 }
-}
+
 
 
    
 
   
+public byte[] getImageDataFromDB(int id) throws SQLException, IOException {
+   // Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/my_database", "my_user", "my_password");
+    Statement stmt = cnx.createStatement();
+    ResultSet rs = stmt.executeQuery("SELECT image FROM article WHERE id = " + id);
+    if (rs.next()) {
+        Blob blob = rs.getBlob("image");
+        InputStream inputStream = blob.getBinaryStream();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    byte[] buffer = new byte[4096];
+    int bytesRead = -1;
+    while ((bytesRead = inputStream.read(buffer)) != -1) {
+        outputStream.write(buffer, 0, bytesRead);
+    }
+    byte[] bytes = outputStream.toByteArray();
+    // Now you have the image data as a byte array
+}
+        return null;
+} 
+}

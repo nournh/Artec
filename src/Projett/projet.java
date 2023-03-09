@@ -1,6 +1,9 @@
 
 package Projett;
         
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -23,14 +26,20 @@ public class  projet {
      * @param article
      * @throws java.sql.SQLException
      */
-    public static void main(String[] args) throws SQLException{
+    public static void main(String[] args) throws SQLException, IOException{
        
 //        A a = A.getInstance();
 //        A a1 = A.getInstance();
 //        System.out.println(a.hashCode());
 //        System.out.println(a1.hashCode());
+// lire l'image à partir d'un fichier
+File imageFile = new File("img/image.jpeg");
+byte[] imageData = Files.readAllBytes(imageFile.toPath());
 
-Article A= new Article("peinture","une fois","Art");
+// affecter l'image à l'article
+
+
+Article A= new Article("Peinture","Une fois","Art");
 ServiceArticle sa = new ServiceArticle() {
    /* @Override
     public List<Article> affciher() {
@@ -47,7 +56,7 @@ ServiceArticle sa = new ServiceArticle() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 };
-    
+    A.setImage(imageData);
 
   List<Article> articlee = sa.affciher();
 
@@ -92,7 +101,7 @@ ObservableList<Commentaire> comment =sc.getall();
        
    // }
   try {
- //sa.add(A);
+ sa.add(A);
 } catch (IllegalArgumentException ex) {
     System.out.println(ex.getMessage());
 }

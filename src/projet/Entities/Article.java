@@ -19,13 +19,26 @@ import projet.Services.ServiceArticle;
 
 
    public class Article {
+      int userId;
        int id;
-      private String Categorie,image;
+      private String Categorie;
         private  String Description;
         private String Titre;
    private  int  likes,dislikes;
         private List<Commentaire> commentaires;;
-        
+        private byte[] image;
+
+    public Article(String Categorie, String Description, String Titre, byte[] image) {
+        this.Categorie = Categorie;
+        this.Description = Description;
+        this.Titre = Titre;
+        this.image = image;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
 
     public int getId() {
         return id;
@@ -34,14 +47,18 @@ import projet.Services.ServiceArticle;
     public void setId(int id) {
         this.id = id;
     }
+public void setImage(byte[] image) {
+    this.image = image;
+}
 
-    public String getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
+    
+
+    
+    
 
     public int getLikes() {
         return likes;
@@ -60,9 +77,9 @@ import projet.Services.ServiceArticle;
     }
     
 
-    public Article(String Categorie, String image, String Description, String Titre, List<Commentaire> commentaires) {
+    public Article(String Categorie,  String Description, String Titre, List<Commentaire> commentaires) {
         this.Categorie = Categorie;
-        this.image = image;
+       
         this.Description = Description;
         this.Titre = Titre;
         this.commentaires = commentaires;

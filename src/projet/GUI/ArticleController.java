@@ -6,8 +6,15 @@
 package projet.GUI;
 
 import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferByte;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.nio.ByteBuffer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -23,6 +30,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -39,15 +47,21 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelFormat;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
+import javafx.scene.image.WritablePixelFormat;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;                
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javax.imageio.ImageIO;
 import javax.smartcardio.Card;
 import static jdk.nashorn.internal.objects.NativeFunction.function;
 import projet.Entities.Article;
 import projet.Entities.Commentaire;
+import projet.Entities.User;
 import projet.Services.BadWordFilter;
 import projet.Services.ServiceArticle;
 
@@ -67,6 +81,8 @@ private List<Commentaire> comments;
     private TextField searchField;
     @FXML
     private Button ajouter;
+    
+    
     /**
      * Initializes the controller class.
      * @param url
@@ -92,7 +108,7 @@ private List<Commentaire> comments;
             article.setDescription(rs.getString("Description"));
             article.setId(rs.getInt("Id"));
             article.setLikes(rs.getInt("Likes"));
-         
+          
 
           articles.add(article);
           
@@ -108,10 +124,12 @@ private List<Commentaire> comments;
         conn.close();
     } catch (SQLException e) {
         e.printStackTrace();
-    }
+    }   catch (IOException ex) {
+            Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 }
 
-private void initCardView(List<Article> articles) {
+private void initCardView(List<Article> articles) throws IOException, SQLException {
  
     int row = 0;
     int col = 0;
@@ -145,19 +163,26 @@ private void initCardView(List<Article> articles) {
         
     
     
-    private VBox createCard(Article article) {
+    private VBox createCard(Article article) throws IOException, SQLException {
         // Créer une carte en utilisant HBox ou VBox pour organiser les éléments de la carte
-     
+       
     // Créer une carte en utilisant HBox ou VBox pour organiser les éléments de la carte
     VBox card = new VBox();
     card.getStyleClass().add("card");
 
     // Ajouter un titre à la carte
     Label titleLabel = new Label("Titre: ");
+   // titleLabel.getStyleClass().addAll("card-title", "card-title-custom");
     Label titleValueLabel = new Label(article.getTitre());
-    titleLabel.getStyleClass().add("card-title");
-    card.getChildren().addAll(titleLabel, titleValueLabel);
-
+       HBox titleBox = new HBox(titleLabel, titleValueLabel);
+    titleBox.getStyleClass().add("card-title");
+    card.getChildren().add(titleBox);
+   // titleLabel.getStyleClass().add("card-title");
+   // card.getChildren().addAll(titleLabel, titleValueLabel);
+    
+ // ImageView imageView = new ImageView();
+  
+  //  card.getChildren().add(imageView);
     // Ajouter un bouton pour afficher les détails de l'article et ses commentaires
     Button detailsButton = new Button("Détails");
    detailsButton.setOnAction(event -> {
@@ -169,8 +194,8 @@ private void initCardView(List<Article> articles) {
     });
     card.getChildren().add(detailsButton);
 
-    int articleId = article.getId();
-    card.getProperties().put("articleId", articleId);
+//    int articleId = article.getId();
+//    card.getProperties().put("articleId", articleId);
 
     return card;
 }
@@ -186,29 +211,60 @@ private void showArticleDetails(Article article) throws SQLException {
         // Récupérer les Labels de la vue pour afficher les détails de l'article
         Label titleLabel = (Label) loader.getNamespace().get("titleLabel");
         Label descriptionLabel = (Label) loader.getNamespace().get("descriptionLabel");
-        Label likesLabel = (Label) loader.getNamespace().get("likesLabel"); // Add a Label for the number of likes
+        Label catégorie = (Label) loader.getNamespace().get("catégorie");
+        Label likesLabel = (Label) loader.getNamespace().get("likesLabel");
+         
         ScrollPane commentsScrollPane = (ScrollPane) loader.getNamespace().get("commentsScrollPane");
          Button addCommentButton = (Button) loader.getNamespace().get("addCommentButton");
          // Récupérer le bouton "Ajouter un commentaire"
         Button likeButton = (Button) loader.getNamespace().get("likeButton");
+        //Button dislike = (Button) loader.getNamespace().get("dislike");
         Button back =(Button) loader.getNamespace().get("back");
-likeButton.setOnAction(event -> {
-    try {
-          
-          article.setLikes(article.getLikes() +1 );
-          likeArticle(article, true);
-          likesLabel.setText(Integer.toString(article.getLikes()));
-    } catch (SQLException ex) {
-        Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+
+ likeButton.setOnAction(event -> {
+    // Prompt the user to enter their ID
+    TextInputDialog dialog = new TextInputDialog();
+    dialog.setTitle("Enter your ID");
+    dialog.setHeaderText("Please enter your ID to like this article.");
+    dialog.setContentText("ID:");
+
+    Optional<String> result = dialog.showAndWait();
+    if (result.isPresent()) {
+        // Convert the ID to an integer
+        int userId = Integer.parseInt(result.get());
+
+        try {
+            // Check if the user has already liked the article
+            if (hasUserLikedArticle(article, userId)) {
+                // Show an error message
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("You have already liked this article");
+                alert.showAndWait();
+            } else {
+                // Update the number of likes for the Article object
+                article.setLikes(article.getLikes() + 1);
+
+                // Call the likeArticle method to update the number of likes in the database
+                likeArticle(article, userId, true);
+
+                // Update the likesLabel to display the new number of likes
+                likesLabel.setText(Integer.toString(article.getLikes()));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 });
 
-        // Ajouter d'autres Labels pour afficher d'autres détails de l'article
+
+
 
         // Afficher les détails de l'article dans les Labels correspondants
         titleLabel.setText(article.getTitre());
         descriptionLabel.setText(article.getDescription());
         likesLabel.setText(Integer.toString(article.getLikes()));
+        catégorie.setText(article.getCategorie());
         
         // Récupérer les commentaires de l'article depuis la base de données
         List<Commentaire> comments = getCommentsForArticle(article.getId());
@@ -264,7 +320,7 @@ private List<Commentaire> getCommentsForArticle(int articleId) throws SQLExcepti
     String username = "root";
     String password = "";
     Connection conn = DriverManager.getConnection(dburl, username, password);
-    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM commentaire WHERE id_art = ?");
+    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM feedback WHERE id_art = ?");
     stmt.setInt(1, articleId);
     ResultSet rs = stmt.executeQuery();
 
@@ -300,7 +356,7 @@ private void initCommentsScrollPane(ScrollPane commentsScrollPane, List<Commenta
 private void showAddCommentDialog(Article article, ScrollPane commentsScrollPane) throws SQLException {
     TextInputDialog dialog = new TextInputDialog();
     dialog.setTitle("Ajouter un commentaire");
-    dialog.setHeaderText("Saisissez votre commentaire pour l'article \"" + article.getTitre() + "\" :");
+    dialog.setHeaderText("Saisissez votre feedback pour l'article \"" + article.getTitre() + "\" :");
     dialog.setContentText("Commentaire :");
 
     Optional<String> result = dialog.showAndWait();
@@ -334,7 +390,7 @@ private void ajouterCommentaire(int articleId, String contenu, ScrollPane commen
         String password = "";
         Connection conn = DriverManager.getConnection(dburl, username, password);
         
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO commentaire (id_art, Contenu) VALUES (?, ?)");
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO feedback (id_art, Contenu) VALUES (?, ?)");
         stmt.setInt(1, articleId);
         stmt.setString(2, contenu);
         stmt.executeUpdate();
@@ -343,22 +399,59 @@ private void ajouterCommentaire(int articleId, String contenu, ScrollPane commen
    
     
 }
-private void likeArticle(Article article, boolean like) throws SQLException {
-    // Mettre à jour le nombre de likes ou dislikes de l'article dans la base de données
+private void likeArticle(Article article, int userId, boolean like) throws SQLException {
     String dburl = "jdbc:mysql://localhost:3306/Artec";
     String username = "root";
     String password = "";
     Connection conn = DriverManager.getConnection(dburl, username, password);
-    PreparedStatement stmt = conn.prepareStatement("UPDATE article SET likes = ?, dislikes = ? WHERE id = ?");
-    stmt.setInt(1, like ? article.getLikes()  : article.getLikes());
-    stmt.setInt(2, like ? article.getDislikes() : article.getDislikes() + 1);
-    stmt.setInt(3, article.getId());
-    stmt.executeUpdate();
+
+    // Check if the user has already liked this article
+    PreparedStatement checkStmt = conn.prepareStatement("SELECT COUNT(*) FROM likes WHERE user_id = ? AND article_id = ?");
+    checkStmt.setInt(1, userId);
+    checkStmt.setInt(2, article.getId());
+    ResultSet checkResult = checkStmt.executeQuery();
+    checkResult.next();
+    int count = checkResult.getInt(1);
+    if (count > 0) {
+        System.out.println("User has already liked this article");
+        return;
+    }
+
+    // Update the number of likes in the article table
+    if (like) {
+        PreparedStatement updateStmt = conn.prepareStatement("UPDATE article SET likes = likes + 1 WHERE id = ?");
+        updateStmt.setInt(1, article.getId());
+        updateStmt.executeUpdate();
+    }
+
+    // Insert a new row into the likes table
+    PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO likes (user_id, article_id) VALUES (?, ?)");
+    insertStmt.setInt(1, userId);
+    insertStmt.setInt(2, article.getId());
+    insertStmt.executeUpdate();
+
     conn.close();
-    
-    // Rafraîchir les détails de l'article dans la vue
-   // showArticleDetails(article);
 }
+
+  private boolean hasUserLikedArticle(Article article, int userId) throws SQLException {
+    String dburl = "jdbc:mysql://localhost:3306/Artec";
+    String username = "root";
+    String password = "";
+    Connection conn = DriverManager.getConnection(dburl, username, password);
+
+    PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM likes WHERE user_id = ? AND article_id = ?");
+    stmt.setInt(1, userId);
+    stmt.setInt(2, article.getId());
+    ResultSet rs = stmt.executeQuery();
+    rs.next();
+    int count = rs.getInt(1);
+
+    conn.close();
+
+    return count > 0;
+}
+
+
 
 private void refreshComments(ScrollPane commentsScrollPane, int articleId) throws SQLException {
     List<Commentaire> comments = getCommentsForArticle(articleId);
@@ -368,51 +461,80 @@ private void refreshComments(ScrollPane commentsScrollPane, int articleId) throw
     public void setArticle(Article article) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @FXML
-    private void search(ActionEvent event) {
-          ServiceArticle serviceArticle = new ServiceArticle();
+@FXML
+private void search(ActionEvent event) {
+    ServiceArticle serviceArticle = new ServiceArticle();
     String searchText = searchField.getText();
     ObservableList<Article> allArticles = serviceArticle.getall();
 
     // Filter the articles based on the search text
-    ObservableList<Article> filteredList = allArticles.filtered(article -> {
-        return article.getTitre().toLowerCase().contains(searchText.toLowerCase()) ||
-                //article.getDescription().toLowerCase().contains(searchText.toLowerCase()) ||
-                article.getCategorie().toLowerCase().contains(searchText.toLowerCase());
-    });
+    ObservableList<Article> filteredList = allArticles.filtered(article ->
+        article.getCategorie().toLowerCase().contains(searchText.toLowerCase())
+    );
 
-    // Show the filtered articles in the table
-   CrdView.getChildren().clear();
+    // Clear the current content of the card view
+    CrdView.getChildren().clear();
 
-    // Add the filtered articles as new cards to the card view
-    filteredList.forEach(article -> {
-        VBox card = createCard(article);
-        CrdView.getChildren().add(card);
-    });
-    }
+    // Create a new grid pane to display the filtered articles
+    GridPane gridPane = new GridPane();
+    gridPane.setHgap(10);
+    gridPane.setVgap(10);
 
-    @FXML
-    private void ajouter(ActionEvent event) {
-      
+    // Add the filtered articles as new cards to the grid
+    int rowIndex = 0;
+    int columnIndex = 0;
+    for (Article article : filteredList) {
         try {
-/*
-         Parent root = FXMLLoader.load(getClass().getResource("/Gui/Voyage.fxml"));
-              Scene scene = new Scene(root);
-              Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-              stage.setScene(scene);
-              stage.show();*/
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("HomeArticleFXML.fxml"));
-            Parent root = loader.load();
-            HomeArticleFXMLController pc = loader.getController();
-            
-            ajouter.getScene().setRoot(root);
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+            VBox card = createCard(article);
+            gridPane.add(card, columnIndex, rowIndex);
+
+            // Increment the row or column index based on the grid layout
+            if (columnIndex == 1) {
+                rowIndex++;
+                columnIndex = 0;
+            } else {
+                columnIndex++;
+            }
+        } catch (IOException | SQLException ex) {
+            Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    // Add the grid to the card view
+    CrdView.getChildren().add(gridPane);
 }
 
+//    @FXML
+//    private void search(ActionEvent event) {
+//          ServiceArticle serviceArticle = new ServiceArticle();
+//    String searchText = searchField.getText();
+//    ObservableList<Article> allArticles = serviceArticle.getall();
+//
+//    // Filter the articles based on the search text
+//    ObservableList<Article> filteredList = allArticles.filtered(article -> {
+//       // return article.getTitre().toLowerCase().contains(searchText.toLowerCase()) ||
+//                //article.getDescription().toLowerCase().contains(searchText.toLowerCase()) ||
+//             return    article.getCategorie().toLowerCase().contains(searchText.toLowerCase());
+//    });
+//
+//    // Show the filtered articles in the table
+//   CrdView.getChildren().clear();
+//
+//    // Add the filtered articles as new cards to the card view
+//    filteredList.forEach(article -> {
+//        VBox card = null;
+//              try {
+//                  card = createCard(article);
+//              } catch (IOException ex) {
+//                  Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+//              } catch (SQLException ex) {
+//                  Logger.getLogger(ArticleController.class.getName()).log(Level.SEVERE, null, ex);
+//              }
+//        CrdView.getChildren().add(card);
+//    });
+//    }
+
+}
    
     
        

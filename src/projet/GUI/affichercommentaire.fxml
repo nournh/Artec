@@ -4,12 +4,13 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane id="AnchorPane" prefHeight="657.0" prefWidth="1096.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projet.GUI.AffichercommentaireController">
    <children>
        
-      <TableView fx:id="Comment" layoutX="14.0" layoutY="30.0" prefHeight="419.0" prefWidth="791.0">
+      <TableView fx:id="Comment" layoutX="14.0" layoutY="112.0" prefHeight="419.0" prefWidth="791.0">
         <columns>
           <TableColumn fx:id="contenu" prefWidth="365.0" text="Contenu" />
           <TableColumn fx:id="Date" prefWidth="425.0" text="Date" />
@@ -20,5 +21,6 @@
       
       <Button layoutX="890.0" layoutY="569.0" mnemonicParsing="false" onAction="#delete" style="-fx-background-color: #8c87ed;" stylesheets="@back.css" text="Supprimer" />
       <Button fx:id="modifier" layoutX="890.0" layoutY="486.0" mnemonicParsing="false" onAction="#modifier" prefHeight="30.0" prefWidth="83.0" style="-fx-background-color: #8c87ed;" stylesheets="@back.css" text="modifier" />
+      <TextField layoutX="204.0" layoutY="23.0" />
    </children>
 </AnchorPane>
