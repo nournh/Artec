@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import org.controlsfx.control.Rating?>
+
+<AnchorPane id="AnchorPane" fx:id="Panedetail" prefHeight="852.0" prefWidth="1320.0" style="-fx-background-color: #c3c0ed;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" >
+   <children>
+      <Text fill="#faff66" layoutX="75.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fiche d'Oeuvre :" wrappingWidth="499.6708984375">
+         <font>
+            <Font name="Lucida Handwriting Italic" size="31.0" />
+         </font>
+      </Text>
+      
+      <TextField fx:id="prixInput1" layoutX="132.0" layoutY="110.0" prefHeight="43.0" prefWidth="546.0" promptText="rechercher  " style="-fx-background-radius: 20;" />
+      <ImageView fitHeight="21.0" fitWidth="28.0" layoutX="635.0" layoutY="121.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@assets/330880250_869169004186304_737899577807199003_n.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="1231.0" layoutY="1074.0" mnemonicParsing="false" text="suivant" />
+      <ComboBox layoutX="998.0" layoutY="116.0" prefWidth="150.0" />
+      <Text layoutX="911.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filtrer">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Pane layoutX="256.0" layoutY="366.0" prefHeight="356.0" prefWidth="808.0">
+         <children>
+            <Pane layoutX="-77.0" layoutY="-20.0" prefHeight="440.0" prefWidth="686.0">
+               <children>
+                  <Label fx:id="titleLabel" layoutX="401.0" layoutY="14.0" prefHeight="60.0" prefWidth="326.0" text="Titre :">
+                     <font>
+                        <Font name="System Bold Italic" size="25.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="artisteLabel" layoutX="401.0" layoutY="74.0" prefHeight="60.0" prefWidth="478.0" text="Artiste :">
+                     <font>
+                        <Font name="System Bold Italic" size="25.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="371.0" fitWidth="303.0" layoutY="35.0" pickOnBounds="true" smooth="false">
+                     <image>
+                        <Image url="@assets/dd.jpg" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="Etatlabel" layoutX="401.0" layoutY="298.0" prefHeight="60.0" prefWidth="282.0" text="Etat :">
+                     <font>
+                        <Font name="System Bold Italic" size="25.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="Id_cat_oeuv" layoutX="401.0" layoutY="144.0" prefHeight="60.0" prefWidth="478.0" text="Famille :">
+                     <font>
+                        <Font name="System Bold Italic" size="25.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="prixLabel" layoutX="401.0" layoutY="220.0" prefHeight="60.0" prefWidth="478.0" text="Prix : ">
+                     <font>
+                        <Font name="System Bold Italic" size="25.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="607.0" layoutY="399.0" mnemonicParsing="false" text="Submit" />
+                  <Rating fx:id="rating" layoutX="401.0" layoutY="398.0" partialRating="true" rating="0.0" updateOnHover="true" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+      <Button layoutX="22.0" layoutY="838.0" mnemonicParsing="false" text="retour" />
+   </children>
+</AnchorPane>

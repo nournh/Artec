@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>src/main/NewFXMain.java</url>
+            <bookmark id="1">
+                <name/>
+                <line>38</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/octanet/Documents/NetBeansProjects/Workshop3A23/arteccopy2/src/main/NewFXMain.java</file>
+            <file>file:/C:/Users/octanet/Documents/NetBeansProjects/Workshop3A23/arteccopy2/src/pi/GUI/ListRating.fxml</file>
+            <file>file:/C:/Users/octanet/Documents/NetBeansProjects/Workshop3A23/arteccopy2/src/main/NewFXMaintest.java</file>
+            <file>file:/C:/Users/octanet/Documents/NetBeansProjects/Workshop3A23/arteccopy2/src/pi/GUI/AjouteroeuvreController.java</file>
+            <file>file:/C:/Users/octanet/Documents/NetBeansProjects/Workshop3A23/arteccopy2/src/pi/GUI/Listeoeuvre.fxml</file>
+            <file>file:/C:/Users/octanet/Documents/NetBeansProjects/Workshop3A23/arteccopy2/src/pi/GUI/CardOeuvreController.java</file>
+            <file>file:/C:/Users/octanet/Documents/NetBeansProjects/Workshop3A23/arteccopy2/src/main/NewFXMaincard.java</file>
+            <file>file:/C:/Users/octanet/Documents/NetBeansProjects/Workshop3A23/arteccopy2/src/pi/GUI/OeuvreDetail.fxml</file>
+            <file>file:/C:/Users/octanet/Documents/NetBeansProjects/Workshop3A23/arteccopy2/src/pi/GUI/qrcode.fxml</file>
+            <file>file:/C:/Users/octanet/Documents/NetBeansProjects/Workshop3A23/arteccopy2/src/pi/GUI/CardOeuvre.fxml</file>
+            <file>file:/C:/Users/octanet/Documents/NetBeansProjects/Workshop3A23/arteccopy2/src/pi/Entities/Vote.java</file>
+            <file>file:/C:/Users/octanet/Documents/NetBeansProjects/Workshop3A23/arteccopy2/src/pi/Services/ServiceVote.java</file>
+            <file>file:/C:/Users/octanet/Documents/NetBeansProjects/Workshop3A23/arteccopy2/src/pi/GUI/ListController.java</file>
+        </group>
+    </open-files>
+</project-private>

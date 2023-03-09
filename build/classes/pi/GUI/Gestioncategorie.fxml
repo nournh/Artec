@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="712.0" prefWidth="1128.0" styleClass="root" stylesheets="@Listeoeuvre.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi.GUI.GestioncategorieController">
+   <children>
+      <Pane layoutX="481.0" layoutY="172.0" prefHeight="448.0" prefWidth="579.0" style="-fx-background-color: #0b1ca0;">
+         <children>
+            <TableView fx:id="tablecategorie" prefHeight="457.0" prefWidth="580.0" style="-fx-background-color: #fdffb0ff; -fx-background-radius: 20;">
+               <columns>
+                  <TableColumn fx:id="Nom_cat_oeuv" prefWidth="216.0" text="Nom" />
+                  <TableColumn fx:id="description_cat_oeuv" maxWidth="6000.0" prefWidth="366.0" resizable="false" text="Description" />
+               </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <Text fill="#75b514" layoutX="314.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gestion Catégories d'art " textAlignment="CENTER" wrappingWidth="499.6708984375">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="36.0" />
+         </font>
+      </Text>
+      <Pane layoutX="14.0" layoutY="144.0" prefHeight="543.0" prefWidth="422.0">
+         <children>
+            <TextField fx:id="nomInput" layoutX="117.0" layoutY="67.0" prefHeight="47.0" prefWidth="294.0" promptText="Saisir le nom" style="-fx-background-radius: 20;" />
+            <Label layoutX="30.0" layoutY="67.0" prefHeight="43.0" prefWidth="63.0" text="Nom" textFill="#111010">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="234.0" prefHeight="25.0" prefWidth="95.0" text="Description">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="descriptionInput" layoutX="117.0" layoutY="153.0" prefHeight="198.0" prefWidth="294.0" promptText="Saisir la description" style="-fx-background-radius: 50;" />
+            <Button layoutX="14.0" layoutY="397.0" mnemonicParsing="false" onAction="#ajouterCategorie" prefHeight="31.0" prefWidth="124.0" style="-fx-background-color: #faff66ff; -fx-background-radius: 20;" text="Ajouter" textFill="#0b1ba1">
+               <font>
+                  <Font name="Matura MT Script Capitals" size="18.0" />
+               </font>
+            </Button>
+            <Button layoutX="310.0" layoutY="397.0" mnemonicParsing="false" onAction="#supprimerCategorie" prefHeight="31.0" prefWidth="112.0" style="-fx-background-color: #faff66ff; -fx-background-radius: 20;" text="Supprimer" textFill="#0b1ba1">
+               <font>
+                  <Font name="Matura MT Script Capitals" size="18.0" />
+               </font>
+            </Button>
+            <Button layoutX="157.0" layoutY="397.0" mnemonicParsing="false" onAction="#modifierCategorie" prefHeight="31.0" prefWidth="124.0" style="-fx-background-color: #faff66ff; -fx-background-radius: 20;" text="Modifier" textFill="#0b1ba1">
+               <font>
+                  <Font name="Matura MT Script Capitals" size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Button fx:id="btnfermer" layoutX="1028.0" layoutY="21.0" mnemonicParsing="false" onMouseClicked="#closeCategorie" text="fermer" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,43 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 4 mars 2023, 22:21:43
+    Author     : octanet
+*/
+
+/*.primary-background {
+    -fx-background-color:#17949d
+        
+        
+        
+}
+.root {
+  -fx-background-image: url("background.png");
+   -fx-background-size: cover;
+    -fx-background-position: center;
+}
+.secondary-background {
+    -fx-background-color:#cced55
+}
+.card{
+    
+    -fx-background-radius :10;
+  
+}
+.card {
+    background-color: white;
+    border-radius: 10px;
+   
+    padding: 20px;
+    margin: 20px;
+}*/
+
+.root{
+     -fx-background-image: url("file:///C:/Users/octanet/OneDrive/Bureau/background.png");
+   -fx-background-size: cover;
+    -fx-background-position: center;
+}
+/* -fx-background-color: #c3c0ed*/
